@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <title>KTV 免费上网</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+    <!-- 防缓存 -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            height:100vh;
+            background:#050816;
+            color:#fff;
+            font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",Arial;
+            position:relative;
+            overflow:hidden;
+        }
+        .bg-container {
+            position:absolute;
+            inset:0;
+            background-image:url('ad-image.jpg');
+            background-size:cover;
+            background-position:center;
+            background-repeat:no-repeat;
+        }
+        .content-wrapper {
+            position:relative;
+            height:100vh;
+            display:flex;
+            flex-direction:column;
+            justify-content:flex-end;
+            align-items:center;
+            padding-bottom:63%;
+            padding-left:20px;
+            padding-right:20px;
+        }
+        .box {
+            width:100%;
+            max-width:320px;
+            z-index:10;
+        }
+    .btn {
+    display:block;
+    width:100%;
+    padding:16px;
+    border-radius:999px;
+    text-align:center;
+    font-weight:700;
+    font-size:16px;
+    border:none;
+    color:#ffffff;
+    background:linear-gradient(135deg, #a855f7 0%, #7e22ce 100%);
+}
+.tip {
+    margin-top:10px;
+    font-size:12px;
+    opacity:.8;
+    text-align:center;
+    color:#d8b4fe;
+}
+    </style>
+</head>
+
+<body>
+
+<div class="bg-container"></div>
+
+<div class="content-wrapper">
+    <div class="box">
+        <button id="btnConnect" class="btn">一键认证 免费上网</button>
+        <div class="tip">点击后将自动连接网络</div>
+    </div>
+</div>
+
+<script>
+    (function () {
+
+        var btn = document.getElementById("btnConnect");
+        var locked = false;
+
+        btn.addEventListener("click", function () {
+
+            // 防止重复点击
+            if (locked) return;
+            locked = true;
+
+            btn.innerText = "正在连接...";
+            btn.disabled = true;
+
+            // 爱快 WebAuth 地址（必须）
+            var authUrl = "http://portal.ikuai8-wifi.com/Action/webauth-up?type=7";
+
+            // 透传爱快参数
+            if (location.search) {
+                authUrl += location.search.replace("?", "&");
+            }
+
+            // 认证完成后跳转地址
+            var redirectUrl = "https://t.me/u86Robot?start=1000";
+            authUrl += "&url=" + encodeURIComponent(redirectUrl);
+
+            /**
+             * 关键点：
+             * 1. 顶层跳转
+             * 2. replace（不留历史）
+             * 3. 同步执行
+             */
+            window.location.replace(authUrl);
+        });
+
+    })();
+</script>
+
+</body>
+</html>
